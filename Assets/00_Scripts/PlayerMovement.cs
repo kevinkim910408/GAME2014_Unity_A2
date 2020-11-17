@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
 
 	Animator animator;
 
+	bool doubleJump;
+	int jumpCount;
+
 	//---------------------------------------------------[Override Function]
 	//Initialization
 	void Start()
@@ -42,11 +45,19 @@ public class PlayerMovement : MonoBehaviour
 	//Graphic & Input Updates	
 	void Update()
 	{
-		if (Input.GetButtonDown("Jump"))
+		// prevent double jump at first
+		if (Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && doubleJump)))
 		{
+			jumpCount++;
 			isJumping = true;
 			animator.SetBool("isJumping", true);
 			animator.SetTrigger("doJumping"); // jump animation
+
+			if(jumpCount == 2)
+            {
+				doubleJump = false;
+				jumpCount = 0;
+            }
 		}
 	}
 
@@ -106,10 +117,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+		// landing
 		Debug.Log(collision.gameObject.layer);
-		if(collision.gameObject.layer == 8 && rigid.velocity.y < 0)
+		if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9 && rigid.velocity.y < 0)
         {
 			animator.SetBool("isJumping", false);
+        }
+
+		// block
+		if((collision.gameObject.layer == 9 && rigid.velocity.y < 0))
+		{
+			BlockStatus block = collision.gameObject.GetComponent<BlockStatus>();
+
+            switch (block.type)
+            {
+				case "Up":
+					Vector2 upVelocity = new Vector2(0, block.value);
+					rigid.AddForce(upVelocity, ForceMode2D.Impulse);
+					break;
+				case "Double":
+					doubleJump = true;
+					break;
+				case "Portal":
+					Vector3 portal2 = block.portal.transform.position;
+					Vector3 warp = new Vector3(portal2.x, portal2.y + 2.0f, portal2.z);
+					transform.position = warp;
+
+					break;
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
