@@ -11,51 +11,56 @@ using System.Collections;
 ///  - Contain the function of player movement
 ///  
 /// Revision History
-/// 2020-11-17: Added player movement function and jump
+/// 2020-11-17: Added player movement function and jump.
+/// 2020-11-17: Added the functions for several blocks
 /// 
 /// </summary>
 
 public class PlayerMovement : MonoBehaviour
 {
 
+	[Header("Speed")]
 	public float movePower = 5f;
 	public float jumpPower = 2f;
 
-	SpriteRenderer renderer;
-
+	// components
+	SpriteRenderer spriteRenderer;
 	Rigidbody2D rigid;
+	Animator animator;
 
+	// to move and jump the character
 	Vector3 movement;
 	bool isJumping = false;
 
-	Animator animator;
-
-	bool doubleJump;
+	// to use double jump block
+	bool isDoubleJump;
 	int jumpCount;
 
-	//---------------------------------------------------[Override Function]
-	//Initialization
-	void Start()
+    #region Unity_Methods
+    //Initialization
+    void Start()
 	{
+		// get all components
 		rigid = gameObject.GetComponent<Rigidbody2D>();
-		renderer = gameObject.GetComponent<SpriteRenderer>();
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		animator = gameObject.GetComponent<Animator>();
 	}
 
-	//Graphic & Input Updates	
+	//Updates	
 	void Update()
 	{
-		// prevent double jump at first
-		if (Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && doubleJump)))
+		// prevent double jump
+		if (Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
 		{
 			jumpCount++;
 			isJumping = true;
 			animator.SetBool("isJumping", true);
 			animator.SetTrigger("doJumping"); // jump animation
 
+			// if i used the double jump block - cannot double jump anymore
 			if(jumpCount == 2)
             {
-				doubleJump = false;
+				isDoubleJump = false;
 				jumpCount = 0;
             }
 		}
@@ -68,38 +73,42 @@ public class PlayerMovement : MonoBehaviour
 		Jump();
 	}
 
-	//---------------------------------------------------[Movement Function]
+    #endregion
 
-	void Move()
+    void Move()
 	{
 		Vector3 moveVelocity = Vector3.zero;
+
+		// Idle animation
 		if(Input.GetAxisRaw("Horizontal") == 0)
         {
 			animator.SetBool("isMoving", false);
 		}
 
+		// moving and moving animations
 		if (Input.GetAxisRaw("Horizontal") < 0)
 		{
 			moveVelocity = Vector3.left;
 			animator.SetBool("isMoving", true);
 
 			//transform.localScale = new Vector3(-1, 1, 1); // flip to left turn
-			renderer.flipX = true; // flip to left turn
+			spriteRenderer.flipX = true; // flip to left turn
 		}
-
 		else if (Input.GetAxisRaw("Horizontal") > 0)
 		{
 			moveVelocity = Vector3.right;
 			animator.SetBool("isMoving", true);
 
 			//transform.localScale = new Vector3(1, 1, 1); // flip to right turn
-			renderer.flipX = false;  // flip to right turn
+			spriteRenderer.flipX = false;  // flip to right turn
 
 		}
 
+		// actual move
 		transform.position += moveVelocity * movePower * Time.deltaTime;
 	}
 
+	// jump with rigid body 2d
 	void Jump()
 	{
 		if (!isJumping)
@@ -114,30 +123,36 @@ public class PlayerMovement : MonoBehaviour
 		isJumping = false;
 	}
 
-
+	// on player's foot, there is a box collider(trigger box)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-		// landing
+		// player steps the ground
 		Debug.Log(collision.gameObject.layer);
 		if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9 && rigid.velocity.y < 0)
         {
+			// Idle
 			animator.SetBool("isJumping", false);
         }
 
-		// block
+		// blocks function
 		if((collision.gameObject.layer == 9 && rigid.velocity.y < 0))
 		{
 			BlockStatus block = collision.gameObject.GetComponent<BlockStatus>();
 
             switch (block.type)
             {
+				// auto jump block
 				case "Up":
 					Vector2 upVelocity = new Vector2(0, block.value);
 					rigid.AddForce(upVelocity, ForceMode2D.Impulse);
 					break;
+
+				// double jump block
 				case "Double":
-					doubleJump = true;
+					isDoubleJump = true;
 					break;
+
+				// portal block
 				case "Portal":
 					Vector3 portal2 = block.portal.transform.position;
 					Vector3 warp = new Vector3(portal2.x, portal2.y + 2.0f, portal2.z);
@@ -147,6 +162,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+	// just for debug
     private void OnTriggerExit2D(Collider2D collision)
     {
 		Debug.Log(collision.gameObject.layer);
