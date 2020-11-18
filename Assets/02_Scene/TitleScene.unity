@@ -539,7 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdbd8a20f823564bb7162e84e1b413e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startScene: Stage00
+  startScene: LoadingScene
   InstructorScene: InstructorScene
 --- !u!95 &488564935
 Animator:
