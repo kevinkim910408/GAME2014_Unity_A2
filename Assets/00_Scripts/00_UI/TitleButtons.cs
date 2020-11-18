@@ -24,18 +24,6 @@ public class TitleButtons : MonoBehaviour
     public string startScene;
     public string InstructorScene;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void onStart()
     {
         SceneManager.LoadScene(startScene);
