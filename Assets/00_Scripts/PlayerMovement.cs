@@ -182,6 +182,22 @@ public class PlayerMovement : MonoBehaviour
 			// for debug
 			Debug.Log(ScoreManager.GetScore());
         }
+
+		// get coins
+		if(collision.gameObject.tag == "Coin")
+        {
+			// get coin component
+			CollectableObject coin = collision.gameObject.GetComponent<CollectableObject>();
+			
+			// set score
+			ScoreManager.SetScore(coin.value);
+
+			// for debug
+			Debug.Log(ScoreManager.GetScore());
+
+			// destroy instantly
+			Destroy(collision.gameObject, 0.0f);
+        }
     }
 	// just for debug
     private void OnTriggerExit2D(Collider2D collision)

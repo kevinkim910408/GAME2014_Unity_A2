@@ -19,12 +19,16 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    // static variable, so can call this from anywhere
     static int score = 0;
 
+    // get
     public static void SetScore(int _score)
     {
         score += _score;
     }
+
+    // set
     public static int GetScore()
     {
         return score;
