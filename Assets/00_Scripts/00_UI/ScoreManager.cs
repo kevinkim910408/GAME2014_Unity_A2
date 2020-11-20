@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 
@@ -33,4 +34,11 @@ public class ScoreManager : MonoBehaviour
     {
         return score;
     }
+
+
+    // not using GUI
+    //private void OnGUI()
+    //{
+    //    GUILayout.Label("Score: " + score.ToString());
+    //}
 }
