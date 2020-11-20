@@ -6,13 +6,14 @@ using System.Collections;
 /// Name: Junho Kim
 /// Student#: 101136986
 /// The Source file name: PlayerMovement.cs
-/// Date last Modified: 2020-11-17
+/// Date last Modified: 2020-11-20
 /// Program description
 ///  - Contain the function of player movement
 ///  
 /// Revision History
 /// 2020-11-17: Added player movement function and jump.
 /// 2020-11-17: Added the functions for several blocks
+/// 2020-11-20: Player can kill enemy. If player kills enemy, player auto jump (20.0f)
 /// 
 /// </summary>
 
@@ -161,10 +162,31 @@ public class PlayerMovement : MonoBehaviour
 					break;
             }
         }
+
+		// if player step on th eenemy
+		if(collision.gameObject.tag == "Enemy" && !collision.isTrigger && rigid.velocity.y < -3.0f)
+        {
+			// get enemy component
+			EnemyMovement enemy = collision.gameObject.GetComponent<EnemyMovement>();
+
+			// call enemy die method
+			enemy.Die();
+
+			// this vector is used when player step on the enemy and auto_jump again
+			Vector2 killVector = new Vector2(0, 20.0f);
+			rigid.AddForce(killVector, ForceMode2D.Impulse);
+
+			// set score
+			ScoreManager.SetScore(enemy.score);
+
+			// for debug
+			Debug.Log(ScoreManager.GetScore());
+        }
     }
 	// just for debug
     private void OnTriggerExit2D(Collider2D collision)
     {
 		Debug.Log(collision.gameObject.layer);
 	}
+	
 }

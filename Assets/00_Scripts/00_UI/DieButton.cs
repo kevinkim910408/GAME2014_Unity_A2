@@ -13,7 +13,8 @@ using UnityEngine.SceneManagement;
 ///  - Managing after dead
 ///  
 /// Revision History
-/// 2020-11-18:  
+/// 2020-11-18:  Added the function of set active / deactive die panel
+///              This function will be unabled.
 /// 
 /// </summary>
 /// 
