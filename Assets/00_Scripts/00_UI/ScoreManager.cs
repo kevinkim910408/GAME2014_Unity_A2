@@ -23,6 +23,20 @@ public class ScoreManager : MonoBehaviour
     // static variable, so can call this from anywhere
     static int score = 0;
 
+    // componenets
+    public Text scoreText;
+
+    private void Start()
+    {
+        
+    }
+
+    private void Update()
+    {
+        // show score text on the screen according to the current score.
+        scoreText.text = "Score: " + score;
+    }
+
     // get
     public static void SetScore(int _score)
     {
