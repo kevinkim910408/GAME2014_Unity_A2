@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 
@@ -21,13 +22,22 @@ public class PlayerMovement : MonoBehaviour
 {
 
 	[Header("Speed")]
-	public float movePower = 5f;
-	public float jumpPower = 2f;
+	public float movePower = 5.0f;
+	public float jumpPower = 2.0f;
+
+	[Header("Life")]
+	// player life
+	public int currentLife;
+	public int maxLife = 3;
+
 
 	// components
 	SpriteRenderer spriteRenderer;
 	Rigidbody2D rigid;
 	Animator animator;
+
+	// for spawning player when player hit "DeathPlane"
+	public Transform spawnPoint;
 
 	// to move and jump the character
 	Vector3 movement;
@@ -37,6 +47,14 @@ public class PlayerMovement : MonoBehaviour
 	bool isDoubleJump;
 	int jumpCount;
 
+	// boolean - move
+	bool canPlayerMove = true;
+
+	// boolean - die
+	bool isDie = false;
+
+	
+
     #region Unity_Methods
     //Initialization
     void Start()
@@ -45,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
 		rigid = gameObject.GetComponent<Rigidbody2D>();
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		animator = gameObject.GetComponent<Animator>();
+		currentLife = maxLife;
 	}
 
 	//Updates	
@@ -65,48 +84,89 @@ public class PlayerMovement : MonoBehaviour
 				jumpCount = 0;
             }
 		}
+
+		// pcheck player life
+		if (currentLife == 0)
+        {
+			// if true
+            if (!isDie)
+            {
+				// die
+				Die();
+            }
+        }
 	}
 
 	//Physics engine Updates
 	void FixedUpdate()
 	{
+		// check player's life, if 0, cannot move anymore
+		if (currentLife == 0)
+			return;
+
 		Move();
 		Jump();
 	}
 
     #endregion
 
+	void Die()
+    {
+		isDie = true;
+
+		rigid.velocity = Vector2.zero;
+
+		// player is using 2 box colliders
+		BoxCollider2D[] boxCollider2Ds = gameObject.GetComponents<BoxCollider2D>();
+		
+		for(int i = 0; i < boxCollider2Ds.Length; ++i)
+        {
+			// disable all the box collider, so player can fall down
+			boxCollider2Ds[i].enabled = false;
+		}
+
+		// bouncing 
+		Vector2 dieVector = new Vector2(0.0f, 10.0f);
+		rigid.AddForce(dieVector, ForceMode2D.Impulse);
+
+		// restart the stage
+    }
+
+
     void Move()
 	{
-		Vector3 moveVelocity = Vector3.zero;
-
-		// Idle animation
-		if(Input.GetAxisRaw("Horizontal") == 0)
+        if (canPlayerMove)
         {
-			animator.SetBool("isMoving", false);
+			Vector3 moveVelocity = Vector3.zero;
+
+			// Idle animation
+			if (Input.GetAxisRaw("Horizontal") == 0)
+			{
+				animator.SetBool("isMoving", false);
+			}
+
+			// moving and moving animations
+			if (Input.GetAxisRaw("Horizontal") < 0)
+			{
+				moveVelocity = Vector3.left;
+				animator.SetBool("isMoving", true);
+
+				//transform.localScale = new Vector3(-1, 1, 1); // flip to left turn
+				spriteRenderer.flipX = true; // flip to left turn
+			}
+			else if (Input.GetAxisRaw("Horizontal") > 0)
+			{
+				moveVelocity = Vector3.right;
+				animator.SetBool("isMoving", true);
+
+				//transform.localScale = new Vector3(1, 1, 1); // flip to right turn
+				spriteRenderer.flipX = false;  // flip to right turn
+
+			}
+
+			// actual move
+			transform.position += moveVelocity * movePower * Time.deltaTime;
 		}
-
-		// moving and moving animations
-		if (Input.GetAxisRaw("Horizontal") < 0)
-		{
-			moveVelocity = Vector3.left;
-			animator.SetBool("isMoving", true);
-
-			//transform.localScale = new Vector3(-1, 1, 1); // flip to left turn
-			spriteRenderer.flipX = true; // flip to left turn
-		}
-		else if (Input.GetAxisRaw("Horizontal") > 0)
-		{
-			moveVelocity = Vector3.right;
-			animator.SetBool("isMoving", true);
-
-			//transform.localScale = new Vector3(1, 1, 1); // flip to right turn
-			spriteRenderer.flipX = false;  // flip to right turn
-
-		}
-
-		// actual move
-		transform.position += moveVelocity * movePower * Time.deltaTime;
 	}
 
 	// jump with rigid body 2d
@@ -198,7 +258,13 @@ public class PlayerMovement : MonoBehaviour
 			// destroy instantly
 			Destroy(collision.gameObject, 0.0f);
         }
-    }
+
+		// respawn
+		if (collision.gameObject.CompareTag("DeathPlane"))
+		{
+			transform.position = spawnPoint.position;
+		}
+	}
 	// just for debug
     private void OnTriggerExit2D(Collider2D collision)
     {
