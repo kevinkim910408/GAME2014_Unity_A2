@@ -302,14 +302,24 @@ public class PlayerMovement : MonoBehaviour
 			PlayerSpawn();
 
 		}
+
+		// player's position follows the moving tile
+		if (collision.gameObject.tag == "Platform")
+		{
+			this.gameObject.transform.parent = collision.transform;
+		}
+
 	}
 	// just for debug
     private void OnTriggerExit2D(Collider2D collision)
     {
-		//Debug.Log(collision.gameObject.layer);
+		// player's position follows the moving tile
+		if (collision.gameObject.tag == "Platform")
+		{
+			this.gameObject.transform.parent = null;
+		}
 	}
-
-	void PlayerSpawn()
+    void PlayerSpawn()
     {
 		transform.position = spawnPoint.position;
 	}
