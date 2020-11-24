@@ -259,6 +259,7 @@ MonoBehaviour:
   backScene: TitleScene
   panelOne: {fileID: 1209523184}
   panelTwo: {fileID: 912186842}
+  panelThree: {fileID: 216563322}
   previousButton: {fileID: 1817155233}
   nextButton: {fileID: 390216014}
 --- !u!1 &158528777
