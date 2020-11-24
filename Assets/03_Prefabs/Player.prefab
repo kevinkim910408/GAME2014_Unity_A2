@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 4622144370711854098}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,6 +258,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movePower: 5
   jumpPower: 15
+  currentLife: 0
+  maxLife: 3
+  lifeImage1: {fileID: 0}
+  lifeImage2: {fileID: 0}
+  lifeImage3: {fileID: 0}
+  diePanel: {fileID: 0}
+  spawnPoint: {fileID: 0}
 --- !u!95 &4622144370711854098
 Animator:
   serializedVersion: 3
