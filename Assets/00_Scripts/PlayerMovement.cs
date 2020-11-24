@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// Name: Junho Kim
 /// Student#: 101136986
 /// The Source file name: PlayerMovement.cs
-/// Date last Modified: 2020-11-20
+/// Date last Modified: 2020-11-24
 /// Program description
 ///  - Contain the function of player movement
 ///  
@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 /// 2020-11-17: Added player movement function and jump.
 /// 2020-11-17: Added the functions for several blocks
 /// 2020-11-20: Player can kill enemy. If player kills enemy, player auto jump (20.0f)
+/// 2020-11-24: Player can be damaged by enemy and if die, reset the position to the first spawn position. and if die 3 times, call die panel
 /// 
 /// </summary>
 
@@ -29,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
 	// player life
 	public int currentLife;
 	public int maxLife = 3;
+
+	[Header("Panels")]
+	// call die panel
+	public GameObject diePanel;
 
 
 	// components
@@ -53,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
 	// boolean - die
 	bool isDie = false;
 
+	// player prefab
+	//public GameObject playerPrefab;
 	
 
     #region Unity_Methods
@@ -116,21 +123,24 @@ public class PlayerMovement : MonoBehaviour
 
 		rigid.velocity = Vector2.zero;
 
-		// player is using 2 box colliders
-		BoxCollider2D[] boxCollider2Ds = gameObject.GetComponents<BoxCollider2D>();
-		
-		for(int i = 0; i < boxCollider2Ds.Length; ++i)
-        {
-			// disable all the box collider, so player can fall down
-			boxCollider2Ds[i].enabled = false;
-		}
-
 		// bouncing 
 		Vector2 dieVector = new Vector2(0.0f, 10.0f);
 		rigid.AddForce(dieVector, ForceMode2D.Impulse);
 
-		// restart the stage
-    }
+		// minus life
+		currentLife--;
+		Debug.Log(currentLife);
+		
+		// if life is less than 0;
+		if(currentLife <= 0)
+        {
+			// call die panel and pause
+			Time.timeScale = 0.0f;
+			diePanel.SetActive(true);
+		}
+
+
+	}
 
 
     void Move()
@@ -242,6 +252,15 @@ public class PlayerMovement : MonoBehaviour
 			// for debug
 			Debug.Log(ScoreManager.GetScore());
         }
+
+		// Player die
+        else if (collision.gameObject.tag == "Enemy" && !collision.isTrigger)
+        {
+			Die();
+
+			// reset the position to the spawn point
+			transform.position = spawnPoint.position;
+		}
 
 		// get coins
 		if(collision.gameObject.tag == "Coin")

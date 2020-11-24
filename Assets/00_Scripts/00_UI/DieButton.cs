@@ -8,20 +8,21 @@ using UnityEngine.SceneManagement;
 /// Name: Junho Kim
 /// Student#: 101136986
 /// The Source file name: DieButton.cs
-/// Date last Modified: 2020-11-18
+/// Date last Modified: 2020-11-24
 /// Program description
 ///  - Managing after dead
 ///  
 /// Revision History
 /// 2020-11-18:  Added the function of set active / deactive die panel
 ///              This function will be unabled.
-/// 
+/// 2020-11-24:  Die button function is deleted
 /// </summary>
 /// 
 public class DieButton : MonoBehaviour
 {
     [Header("Scene Name")]
     public string MenuScene;
+    public string StartScene;
 
     [Header("Panels")]
     public GameObject diePanel;
@@ -32,16 +33,12 @@ public class DieButton : MonoBehaviour
         diePanel.SetActive(false);
     }
 
-    public void onDie()
-    {
-        Time.timeScale = 0.0f;
-        diePanel.SetActive(true);
-    }
 
-    public void onResume()
+    public void onRetry()
     {
         Time.timeScale = 1.0f;
         diePanel.SetActive(false);
+        SceneManager.LoadScene(StartScene);
     }
 
     public void onMenu()
