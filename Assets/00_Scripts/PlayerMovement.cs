@@ -31,6 +31,12 @@ public class PlayerMovement : MonoBehaviour
 	public int currentLife;
 	public int maxLife = 3;
 
+	// the images of life
+	public GameObject lifeImage1;
+	public GameObject lifeImage2;
+	public GameObject lifeImage3;
+
+
 	[Header("Panels")]
 	// call die panel
 	public GameObject diePanel;
@@ -40,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 	SpriteRenderer spriteRenderer;
 	Rigidbody2D rigid;
 	Animator animator;
+	
 
 	// for spawning player when player hit "DeathPlane"
 	public Transform spawnPoint;
@@ -92,15 +99,31 @@ public class PlayerMovement : MonoBehaviour
             }
 		}
 
-		// pcheck player life
+
+		// check player life
+		if (currentLife == 3)
+		{
+			lifeImage1.SetActive(true);
+			lifeImage2.SetActive(true);
+			lifeImage1.SetActive(true);
+		}
+		if (currentLife == 2)
+		{
+			lifeImage3.SetActive(false);
+		}
+		if (currentLife == 1)
+		{
+			lifeImage2.SetActive(false);
+		}
 		if (currentLife == 0)
         {
 			// if true
             if (!isDie)
             {
-				// die
-				Die();
-            }
+				
+				lifeImage1.SetActive(false);
+				diePanel.SetActive(true);
+			}
         }
 	}
 
@@ -127,18 +150,11 @@ public class PlayerMovement : MonoBehaviour
 		Vector2 dieVector = new Vector2(0.0f, 10.0f);
 		rigid.AddForce(dieVector, ForceMode2D.Impulse);
 
-		// minus life
-		currentLife--;
-		Debug.Log(currentLife);
-		
-		// if life is less than 0;
-		if(currentLife <= 0)
+		if(currentLife == 0)
         {
-			// call die panel and pause
 			Time.timeScale = 0.0f;
 			diePanel.SetActive(true);
 		}
-
 
 	}
 
@@ -256,10 +272,11 @@ public class PlayerMovement : MonoBehaviour
 		// Player die
         else if (collision.gameObject.tag == "Enemy" && !collision.isTrigger)
         {
+			currentLife--;
 			Die();
 
 			// reset the position to the spawn point
-			transform.position = spawnPoint.position;
+			PlayerSpawn();
 		}
 
 		// get coins
@@ -279,24 +296,22 @@ public class PlayerMovement : MonoBehaviour
         }
 
 		// respawn
-		if (collision.gameObject.CompareTag("DeathPlane"))
+		if (collision.gameObject.tag == "DeathPlane")
 		{
-			Debug.Log(currentLife);
 			currentLife--;
-			// if life is less than -2, cause when he falls, life minus 2 always because of the sprite size and tile size are not fit.
-			if (currentLife <= -2)
-			{
-				// call die panel and pause
-				Time.timeScale = 0.0f;
-				diePanel.SetActive(true);
-			}
-			transform.position = spawnPoint.position;
+			PlayerSpawn();
+
 		}
 	}
 	// just for debug
     private void OnTriggerExit2D(Collider2D collision)
     {
 		//Debug.Log(collision.gameObject.layer);
+	}
+
+	void PlayerSpawn()
+    {
+		transform.position = spawnPoint.position;
 	}
 	
 }

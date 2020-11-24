@@ -27,6 +27,8 @@ public class DieButton : MonoBehaviour
     [Header("Panels")]
     public GameObject diePanel;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
