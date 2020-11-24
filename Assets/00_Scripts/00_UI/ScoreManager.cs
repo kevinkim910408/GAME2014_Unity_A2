@@ -49,6 +49,11 @@ public class ScoreManager : MonoBehaviour
         return score;
     }
 
+    public static void ScoreZero()
+    {
+        score = 0;
+    }
+
 
     // not using GUI
     //private void OnGUI()

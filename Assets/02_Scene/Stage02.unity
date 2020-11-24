@@ -1910,7 +1910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13aa0914c8d17b34bac50d74ff788130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextStageName: Scene02
+  NextStageName: Stage03
 --- !u!61 &1077037115
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2066,7 +2066,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1240753650
 GameObject:

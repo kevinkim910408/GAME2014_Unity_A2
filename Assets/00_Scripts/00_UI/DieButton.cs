@@ -40,6 +40,9 @@ public class DieButton : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         diePanel.SetActive(false);
+
+        // make score = 0, so player should start from 0
+        ScoreManager.ScoreZero();
         SceneManager.LoadScene(StartScene);
     }
 
