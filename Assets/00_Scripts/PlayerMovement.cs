@@ -242,7 +242,7 @@ public class PlayerMovement : MonoBehaviour
 				// portal block
 				case "Portal":
 					Vector3 portal2 = block.portal.transform.position;
-					Vector3 warp = new Vector3(portal2.x, portal2.y + 2.0f, portal2.z);
+					Vector3 warp = new Vector3(portal2.x, portal2.y + 5.0f, portal2.z);
 					transform.position = warp;
 
 					break;
