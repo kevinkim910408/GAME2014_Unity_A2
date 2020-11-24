@@ -2887,7 +2887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13aa0914c8d17b34bac50d74ff788130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextStageName: Scene01
+  NextStageName: Stage02
 --- !u!61 &1376230027
 BoxCollider2D:
   m_ObjectHideFlags: 0
