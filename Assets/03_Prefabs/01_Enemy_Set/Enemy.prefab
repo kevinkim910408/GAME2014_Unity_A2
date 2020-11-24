@@ -166,4 +166,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   enemyType: 0
-  score: 30
+  score: 200
