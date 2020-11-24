@@ -3,6 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 
+/// Name: Junho Kim
+/// Student#: 101136986
+/// The Source file name: NextStage.cs
+/// Date last Modified: 2020-11-24
+/// Program description
+///  - If player hit the goal point, this script will help player to move to next stage
+///  
+/// Revision History
+/// 2020-11-24: Added on trigger enter 2d method
+/// 
+/// </summary>
+
 public class NextStage : MonoBehaviour
 {
     public string NextStageName;
