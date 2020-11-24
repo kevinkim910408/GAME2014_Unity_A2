@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 /// The Source file name: NextStage.cs
 /// Date last Modified: 2020-11-24
 /// Program description
-///  - If player hit the goal point, this script will help player to move to next stage
+///  - If player hit the goal point, this script will help player to move to next stage(open a panel)
 ///  
 /// Revision History
 /// 2020-11-24: Added on trigger enter 2d method
@@ -19,13 +19,14 @@ using UnityEngine.SceneManagement;
 
 public class NextStage : MonoBehaviour
 {
-    public string NextStageName;
+    public GameObject winPanel;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene(NextStageName);
+            Time.timeScale = 0.0f;
+            winPanel.SetActive(true);
         }
     }
 }
