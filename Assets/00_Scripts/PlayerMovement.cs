@@ -198,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 		// player steps the ground
-		Debug.Log(collision.gameObject.layer);
+		//Debug.Log(collision.gameObject.layer);
 		if(collision.gameObject.layer == 8 || collision.gameObject.layer == 9 && rigid.velocity.y < 0)
         {
 			// Idle
@@ -250,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
 			ScoreManager.SetScore(enemy.score);
 
 			// for debug
-			Debug.Log(ScoreManager.GetScore());
+			//Debug.Log(ScoreManager.GetScore());
         }
 
 		// Player die
@@ -281,13 +281,22 @@ public class PlayerMovement : MonoBehaviour
 		// respawn
 		if (collision.gameObject.CompareTag("DeathPlane"))
 		{
+			Debug.Log(currentLife);
+			currentLife--;
+			// if life is less than -2, cause when he falls, life minus 2 always because of the sprite size and tile size are not fit.
+			if (currentLife <= -2)
+			{
+				// call die panel and pause
+				Time.timeScale = 0.0f;
+				diePanel.SetActive(true);
+			}
 			transform.position = spawnPoint.position;
 		}
 	}
 	// just for debug
     private void OnTriggerExit2D(Collider2D collision)
     {
-		Debug.Log(collision.gameObject.layer);
+		//Debug.Log(collision.gameObject.layer);
 	}
 	
 }
