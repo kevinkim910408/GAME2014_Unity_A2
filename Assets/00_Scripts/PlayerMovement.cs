@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
 	public string jumpSound;
 	public string jumpAuto;
 	public string CoinSound;
+	public string portalSound;
 
 
 	// components
@@ -276,6 +277,7 @@ public class PlayerMovement : MonoBehaviour
 				case "Portal":
 					Vector3 portal2 = block.portal.transform.position;
 					Vector3 warp = new Vector3(portal2.x, portal2.y + 5.0f, portal2.z);
+					audioManager.Play(portalSound);
 					transform.position = warp;
 
 					break;

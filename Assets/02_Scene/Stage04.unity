@@ -8719,6 +8719,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b842e3d1193a8cc4e8a50229c9409ab4, type: 3}
     Volumn: 1
     loop: 0
+  - name: Portal
+    clip: {fileID: 8300000, guid: 4aa445943cd7e6346994a9c842595f1d, type: 3}
+    Volumn: 1
+    loop: 0
   - name: Win
     clip: {fileID: 8300000, guid: f087a6dfce46e8f48a0e241420f72561, type: 3}
     Volumn: 1
@@ -12495,6 +12499,10 @@ PrefabInstance:
       propertyPath: lifeImage1
       value: 
       objectReference: {fileID: 1176345227}
+    - target: {fileID: 4622144370711854099, guid: 300112d16a656904999846e9868dad6c, type: 3}
+      propertyPath: portalSound
+      value: Portal
+      objectReference: {fileID: 0}
     - target: {fileID: 4622144370711854100, guid: 300112d16a656904999846e9868dad6c, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -12517,11 +12525,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622144370711854101, guid: 300112d16a656904999846e9868dad6c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 147.4
+      value: -0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4622144370711854101, guid: 300112d16a656904999846e9868dad6c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.6
+      value: -0.14
       objectReference: {fileID: 0}
     - target: {fileID: 4622144370711854101, guid: 300112d16a656904999846e9868dad6c, type: 3}
       propertyPath: m_LocalPosition.z
