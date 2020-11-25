@@ -18,15 +18,19 @@ using UnityEngine;
 
 public class JoyButtonManager : MonoBehaviour
 {
+    // components
     GameObject player;
     PlayerMovement playerMovement;
 
+    // init
     public void InitComponents()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerMovement = player.GetComponent<PlayerMovement>();
     }
 
+
+    // event trigger point down 
     public void LeftClickDown()
     {
         Debug.Log("left d");
@@ -44,6 +48,9 @@ public class JoyButtonManager : MonoBehaviour
         playerMovement.inputJump = true;
     }
 
+
+
+    // event trigger point up
     public void LeftClickUp()
     {
         Debug.Log("left u");

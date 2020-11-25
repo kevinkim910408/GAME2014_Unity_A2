@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// Name: Junho Kim
 /// Student#: 101136986
 /// The Source file name: PlayerMovement.cs
-/// Date last Modified: 2020-11-24
+/// Date last Modified: 2020-11-25
 /// Program description
 ///  - Contain the function of player movement
 ///  
@@ -16,6 +16,7 @@ using UnityEngine.SceneManagement;
 /// 2020-11-17: Added the functions for several blocks
 /// 2020-11-20: Player can kill enemy. If player kills enemy, player auto jump (20.0f)
 /// 2020-11-24: Player can be damaged by enemy and if die, reset the position to the first spawn position. and if die 3 times, call die panel
+/// 2020-11-25: Added functions and variables for joy buttons
 /// 
 /// </summary>
 
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
 	// call die panel
 	public GameObject diePanel;
 
+	// for joy buttons
 	[Header("Joy Buttons")]
 	public bool inputLeft = false;
 	public bool inputRight = false;
@@ -74,8 +76,6 @@ public class PlayerMovement : MonoBehaviour
 	//public GameObject playerPrefab;
 
 
-	
-
     #region Unity_Methods
     //Initialization
     void Start()
@@ -86,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
 		animator = gameObject.GetComponent<Animator>();
 		currentLife = maxLife;
 
+
+		// call init components from JoyButtonManager class
 		JoyButtonManager ui = GameObject.FindGameObjectWithTag("Manager").GetComponent<JoyButtonManager>();
 
 		ui.InitComponents();
@@ -95,11 +97,11 @@ public class PlayerMovement : MonoBehaviour
 	void Update()
 	{
 		// prevent double jump
-		if (inputJump || Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
+		if (inputJump  || Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
 		{
 			jumpCount++;
 			isJumping = true;
-			inputJump = false;
+			inputJump = true;
 			animator.SetBool("isJumping", true);
 			animator.SetTrigger("doJumping"); // jump animation
 
@@ -177,13 +179,14 @@ public class PlayerMovement : MonoBehaviour
         {
 			Vector3 moveVelocity = Vector3.zero;
 
-			// Idle animation
+			// Idle animation keyboard + joy button
 			if (Input.GetAxisRaw("Horizontal") == 0 || (!inputRight && !inputLeft))
 			{
 				animator.SetBool("isMoving", false);
 			}
 
 			// moving and moving animations
+			//  keyboard + joy button  -- left
 			if (Input.GetAxisRaw("Horizontal") < 0 || inputLeft)
 			{
 				moveVelocity = Vector3.left;
@@ -192,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
 				//transform.localScale = new Vector3(-1, 1, 1); // flip to left turn
 				spriteRenderer.flipX = true; // flip to left turn
 			}
+			//  keyboard + joy button  -- right
 			else if (Input.GetAxisRaw("Horizontal") > 0 || inputRight)
 			{
 				moveVelocity = Vector3.right;
@@ -220,6 +224,7 @@ public class PlayerMovement : MonoBehaviour
 		rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
 		isJumping = false;
+		inputJump = false;
 	}
 
 	// on player's foot, there is a box collider(trigger box)
