@@ -113,7 +113,8 @@ public class PlayerMovement : MonoBehaviour
 	void Update()
 	{
 		// prevent double jump
-		if (inputJump  || Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
+		//if (inputJump  || Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
+		if (inputJump && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
 		{
 			jumpCount++;
 			isJumping = true;
