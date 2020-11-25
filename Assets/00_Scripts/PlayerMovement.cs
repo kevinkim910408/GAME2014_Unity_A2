@@ -294,6 +294,7 @@ public class PlayerMovement : MonoBehaviour
 
 			// reset the position to the spawn point
 			PlayerSpawn();
+			//invoke("PlayerSpawn")
 		}
 
 		// get coins
@@ -316,6 +317,8 @@ public class PlayerMovement : MonoBehaviour
 		if (collision.gameObject.tag == "DeathPlane")
 		{
 			currentLife--;
+
+			//Invoke("PlayerSpawn", 1.0f);
 			PlayerSpawn();
 
 		}
