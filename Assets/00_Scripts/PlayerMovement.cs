@@ -54,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
 	public string jumpAuto;
 	public string CoinSound;
 	public string portalSound;
+	public string dieSound;
+	public string dieSound2;
 
 
 	// components
@@ -290,6 +292,8 @@ public class PlayerMovement : MonoBehaviour
 			// get enemy component
 			EnemyMovement enemy = collision.gameObject.GetComponent<EnemyMovement>();
 
+
+			audioManager.Play(dieSound2);
 			// call enemy die method
 			enemy.Die();
 
@@ -308,6 +312,7 @@ public class PlayerMovement : MonoBehaviour
         else if (collision.gameObject.tag == "Enemy" && !collision.isTrigger)
         {
 			currentLife--;
+			audioManager.Play(dieSound);
 			Die();
 
 			// reset the position to the spawn point
@@ -337,6 +342,7 @@ public class PlayerMovement : MonoBehaviour
 		if (collision.gameObject.tag == "DeathPlane")
 		{
 			currentLife--;
+			audioManager.Play(dieSound);
 
 			//Invoke("PlayerSpawn", 1.0f);
 			PlayerSpawn();

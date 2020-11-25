@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3207775022377542817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3207775022377542847}
+  - component: {fileID: 3207775022377542846}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3207775022377542847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207775022377542817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.751035, y: 1.3026773, z: -21.432398}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3207775022377542846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207775022377542817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b0550a3be59f9488356e2943cec54e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Jump
+    clip: {fileID: 8300000, guid: d47e2e2950e72cf40a6da2eaa5d26793, type: 3}
+    Volumn: 1
+    loop: 0
+  - name: Jump_A
+    clip: {fileID: 8300000, guid: 172cd26543014474390d88a3e6c84e6b, type: 3}
+    Volumn: 1
+    loop: 0
+  - name: Coin
+    clip: {fileID: 8300000, guid: b842e3d1193a8cc4e8a50229c9409ab4, type: 3}
+    Volumn: 1
+    loop: 0
+  - name: Portal
+    clip: {fileID: 8300000, guid: 4aa445943cd7e6346994a9c842595f1d, type: 3}
+    Volumn: 1
+    loop: 0
+  - name: Win
+    clip: {fileID: 8300000, guid: f087a6dfce46e8f48a0e241420f72561, type: 3}
+    Volumn: 1
+    loop: 0
+  - name: Player_Dead
+    clip: {fileID: 8300000, guid: c45ae950b5833b043a3dc6b82784fe38, type: 3}
+    Volumn: 1
+    loop: 0
+  - name: Enemy_Dead
+    clip: {fileID: 8300000, guid: dfd1165e08582f146b1670dc3c2fcba9, type: 3}
+    Volumn: 1
+    loop: 0
