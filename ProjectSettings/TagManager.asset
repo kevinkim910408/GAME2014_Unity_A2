@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - DeathPlane
   - Platform
+  - Manager
   layers:
   - Default
   - TransparentFX

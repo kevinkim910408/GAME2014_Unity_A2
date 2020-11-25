@@ -41,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
 	// call die panel
 	public GameObject diePanel;
 
+	[Header("Joy Buttons")]
+	public bool inputLeft = false;
+	public bool inputRight = false;
+	public bool inputJump = false;
+
 
 	// components
 	SpriteRenderer spriteRenderer;
@@ -67,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
 
 	// player prefab
 	//public GameObject playerPrefab;
+
+
 	
 
     #region Unity_Methods
@@ -78,16 +85,21 @@ public class PlayerMovement : MonoBehaviour
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		animator = gameObject.GetComponent<Animator>();
 		currentLife = maxLife;
+
+		JoyButtonManager ui = GameObject.FindGameObjectWithTag("Manager").GetComponent<JoyButtonManager>();
+
+		ui.InitComponents();
 	}
 
 	//Updates	
 	void Update()
 	{
 		// prevent double jump
-		if (Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
+		if (inputJump || Input.GetButtonDown("Jump") && (!animator.GetBool("isJumping") || (animator.GetBool("isJumping") && isDoubleJump)))
 		{
 			jumpCount++;
 			isJumping = true;
+			inputJump = false;
 			animator.SetBool("isJumping", true);
 			animator.SetTrigger("doJumping"); // jump animation
 
@@ -166,13 +178,13 @@ public class PlayerMovement : MonoBehaviour
 			Vector3 moveVelocity = Vector3.zero;
 
 			// Idle animation
-			if (Input.GetAxisRaw("Horizontal") == 0)
+			if (Input.GetAxisRaw("Horizontal") == 0 || (!inputRight && !inputLeft))
 			{
 				animator.SetBool("isMoving", false);
 			}
 
 			// moving and moving animations
-			if (Input.GetAxisRaw("Horizontal") < 0)
+			if (Input.GetAxisRaw("Horizontal") < 0 || inputLeft)
 			{
 				moveVelocity = Vector3.left;
 				animator.SetBool("isMoving", true);
@@ -180,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
 				//transform.localScale = new Vector3(-1, 1, 1); // flip to left turn
 				spriteRenderer.flipX = true; // flip to left turn
 			}
-			else if (Input.GetAxisRaw("Horizontal") > 0)
+			else if (Input.GetAxisRaw("Horizontal") > 0 || inputRight)
 			{
 				moveVelocity = Vector3.right;
 				animator.SetBool("isMoving", true);
