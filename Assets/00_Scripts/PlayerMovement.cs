@@ -48,6 +48,12 @@ public class PlayerMovement : MonoBehaviour
 	public bool inputRight = false;
 	public bool inputJump = false;
 
+	// audio
+	[Header("Audio")]
+	public string jumpSound;
+	public string jumpAuto;
+	public string CoinSound;
+
 
 	// components
 	SpriteRenderer spriteRenderer;
@@ -75,6 +81,9 @@ public class PlayerMovement : MonoBehaviour
 	// player prefab
 	//public GameObject playerPrefab;
 
+	// Audio
+	AudioManager audioManager;
+
 
     #region Unity_Methods
     //Initialization
@@ -84,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
 		rigid = gameObject.GetComponent<Rigidbody2D>();
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		animator = gameObject.GetComponent<Animator>();
+		audioManager = FindObjectOfType<AudioManager>();
+
 		currentLife = maxLife;
 
 
@@ -220,6 +231,10 @@ public class PlayerMovement : MonoBehaviour
 		//Prevent Velocity amplification.
 		rigid.velocity = Vector2.zero;
 
+		// jump sound
+		audioManager.Play(jumpSound);
+
+
 		Vector2 jumpVelocity = new Vector2(0, jumpPower);
 		rigid.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
@@ -247,6 +262,7 @@ public class PlayerMovement : MonoBehaviour
             {
 				// auto jump block
 				case "Up":
+					audioManager.Play(jumpAuto);
 					Vector2 upVelocity = new Vector2(0, block.value);
 					rigid.AddForce(upVelocity, ForceMode2D.Impulse);
 					break;
@@ -302,7 +318,9 @@ public class PlayerMovement : MonoBehaviour
         {
 			// get coin component
 			CollectableObject coin = collision.gameObject.GetComponent<CollectableObject>();
-			
+
+			audioManager.Play(CoinSound);
+
 			// set score
 			ScoreManager.SetScore(coin.value);
 

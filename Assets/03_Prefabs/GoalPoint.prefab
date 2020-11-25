@@ -123,7 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13aa0914c8d17b34bac50d74ff788130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextStageName: Stage01
+  winPanel: {fileID: 0}
+  winSound: Win
 --- !u!95 &8963607624718276405
 Animator:
   serializedVersion: 3

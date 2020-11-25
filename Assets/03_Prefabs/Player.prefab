@@ -241,6 +241,9 @@ MonoBehaviour:
   inputLeft: 0
   inputRight: 0
   inputJump: 0
+  jumpSound: Jump
+  jumpAuto: Jump_A
+  CoinSound: Coin
   spawnPoint: {fileID: 0}
 --- !u!95 &4622144370711854098
 Animator:

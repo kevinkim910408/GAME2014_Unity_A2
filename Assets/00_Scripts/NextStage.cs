@@ -20,6 +20,8 @@ using UnityEngine.SceneManagement;
 public class NextStage : MonoBehaviour
 {
     public GameObject winPanel;
+    //AudioManager audioManager;
+   // public string winSound;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,6 +29,7 @@ public class NextStage : MonoBehaviour
         {
             Time.timeScale = 0.0f;
             winPanel.SetActive(true);
+            //audioManager.Play(winSound);
         }
     }
 }
