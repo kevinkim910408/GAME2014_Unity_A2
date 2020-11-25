@@ -72,3 +72,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: dfd1165e08582f146b1670dc3c2fcba9, type: 3}
     Volumn: 1
     loop: 0
+  - name: Lose
+    clip: {fileID: 8300000, guid: 7b20a51aa7c87724faaae7333f1c4bc5, type: 3}
+    Volumn: 1
+    loop: 0

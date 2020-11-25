@@ -247,6 +247,7 @@ MonoBehaviour:
   portalSound: Portal
   dieSound: Player_Dead
   dieSound2: Enemy_Dead
+  gameOverSound: Lose
   spawnPoint: {fileID: 0}
 --- !u!95 &4622144370711854098
 Animator:

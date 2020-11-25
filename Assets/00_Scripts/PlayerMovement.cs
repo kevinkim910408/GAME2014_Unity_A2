@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// Name: Junho Kim
 /// Student#: 101136986
 /// The Source file name: PlayerMovement.cs
-/// Date last Modified: 2020-11-25
+/// Date last Modified: 2020-11-26
 /// Program description
 ///  - Contain the function of player movement
 ///  
@@ -17,6 +17,7 @@ using UnityEngine.SceneManagement;
 /// 2020-11-20: Player can kill enemy. If player kills enemy, player auto jump (20.0f)
 /// 2020-11-24: Player can be damaged by enemy and if die, reset the position to the first spawn position. and if die 3 times, call die panel
 /// 2020-11-25: Added functions and variables for joy buttons
+/// 2020-11-26: Added player jump, dead, eat coin, step on special blocks, game over and enemy dead sounds
 /// 
 /// </summary>
 
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
 	public string portalSound;
 	public string dieSound;
 	public string dieSound2;
+	public string gameOverSound;
 
 
 	// components
@@ -148,7 +150,6 @@ public class PlayerMovement : MonoBehaviour
 			// if true
             if (!isDie)
             {
-				
 				lifeImage1.SetActive(false);
 				diePanel.SetActive(true);
 			}
@@ -265,6 +266,7 @@ public class PlayerMovement : MonoBehaviour
             {
 				// auto jump block
 				case "Up":
+					// when player step on this block, sound
 					audioManager.Play(jumpAuto);
 					Vector2 upVelocity = new Vector2(0, block.value);
 					rigid.AddForce(upVelocity, ForceMode2D.Impulse);
@@ -279,6 +281,8 @@ public class PlayerMovement : MonoBehaviour
 				case "Portal":
 					Vector3 portal2 = block.portal.transform.position;
 					Vector3 warp = new Vector3(portal2.x, portal2.y + 5.0f, portal2.z);
+
+					// when player step on this block, sound
 					audioManager.Play(portalSound);
 					transform.position = warp;
 
@@ -292,7 +296,7 @@ public class PlayerMovement : MonoBehaviour
 			// get enemy component
 			EnemyMovement enemy = collision.gameObject.GetComponent<EnemyMovement>();
 
-
+			// enemy dead sound
 			audioManager.Play(dieSound2);
 			// call enemy die method
 			enemy.Die();
@@ -312,7 +316,13 @@ public class PlayerMovement : MonoBehaviour
         else if (collision.gameObject.tag == "Enemy" && !collision.isTrigger)
         {
 			currentLife--;
-			audioManager.Play(dieSound);
+
+			// game over sound
+			if (currentLife == 2 || currentLife == 1)
+				audioManager.Play(dieSound);
+			else
+				audioManager.Play(gameOverSound);
+
 			Die();
 
 			// reset the position to the spawn point
@@ -326,6 +336,7 @@ public class PlayerMovement : MonoBehaviour
 			// get coin component
 			CollectableObject coin = collision.gameObject.GetComponent<CollectableObject>();
 
+			// the sound of gaining coins
 			audioManager.Play(CoinSound);
 
 			// set score
@@ -342,7 +353,12 @@ public class PlayerMovement : MonoBehaviour
 		if (collision.gameObject.tag == "DeathPlane")
 		{
 			currentLife--;
-			audioManager.Play(dieSound);
+
+			// game over sound
+			if(currentLife == 2 || currentLife == 1)
+				audioManager.Play(dieSound);
+			else
+				audioManager.Play(gameOverSound);
 
 			//Invoke("PlayerSpawn", 1.0f);
 			PlayerSpawn();
